@@ -1,0 +1,32 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.parent {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+}
+
+.example-header-image {
+  background-color: white;
+  height: 80px;
+  width: 80px;
+}
+
+.product-image {
+  height: 80px;
+  width: 80px;
+  background-color: white;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dispence {
+  padding: 5px;
+  margin: 10px;
+}

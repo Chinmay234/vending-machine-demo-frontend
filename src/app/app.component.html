@@ -1,17 +1,63 @@
-
-
-<style>
-  :host {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 14px;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-  }
-</style>
-
-<div class="content" role="main">
-  <h1>Welcome to {{title}}!</h1>
-  <h2>Start editing to see some magic happen</h2>
+<div class="parent"  role="main">
+  <div>
+    <mat-grid-list cols="3" rowHeight="1:2">
+      <mat-grid-tile *ngFor="let product of (products$|async); trackBy: trackByFn">
+          <!-- {{product | json}} -->
+          <ng-container [ngTemplateOutlet]="card" [ngTemplateOutletContext]="{$implicit:product}"
+          ></ng-container>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  <div>show cart/ orders
+    <ng-container *ngIf="orders.length > 0">
+      <div *ngFor="let order of orders">
+       {{order.time}} - [{{order.name}}]
+      </div>
+    </ng-container>
+  </div>
+  <div>
+    <div> Add coins to vending machine to select product</div>
+    <button mat-button (click)="addToCart('penny')">1</button>
+    <button mat-button (click)="addToCart('nickel')">5</button>
+    <button mat-button (click)="addToCart('dime')">10</button>
+    <button mat-button (click)="addToCart('quarter')">25</button>
+    total balance available: {{ 
+     totalWalletBalance | currency
+    }}
+  </div>
+  <div>
+    <p>loaded balance : {{
+      totalCartBalance | currency
+    }}</p>
+    <button mat-button  (click)="collectChange()">Collect Change</button>
+  </div>
 </div>
+
+<ng-template #card let-product>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{product.name}}</mat-card-title>
+      <mat-card-subtitle>Price: {{product.price | currency}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div mat-card-avatar class="example-header-image">
+        <img class='product-image' src={{product.image}}>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class='action-buttons'>
+        <p>x {{product.stock}}</p>
+        <button mat-button class="dispence" (click)="dispenceProduct(product)" *ngIf="totalCartBalance >= product.price">
+          dispence
+        </button>
+      </div>
+      
+    </mat-card-actions>
+  </mat-card>
+</ng-template>
+
+<ng-template #wallet>
+  <div>
+
+  </div>
+</ng-template>
